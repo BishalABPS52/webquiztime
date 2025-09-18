@@ -13,6 +13,6 @@
     }
   ],
   "env": {
-    "NEXT_PUBLIC_API_URL": "https://quiztime-backend.onrender.com"
+    "NEXT_PUBLIC_API_URL": "https://quiztime-backend-efv0.onrender.com"
   }
 }
