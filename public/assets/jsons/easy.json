@@ -1,0 +1,79 @@
+{
+  "questions": [
+    {
+      "question": "Which is the longest river in the world?",
+      "correct": "Nile",
+      "wrong": ["Amazon", "Yangtze", "Mississippi", "Danube", "Ganges"]
+    },
+    {
+      "question": "Which is the smallest country in the world by area?",
+      "correct": "Vatican City",
+      "wrong": ["Monaco", "Nauru", "Tuvalu", "San Marino", "Liechtenstein"]
+    },
+    {
+      "question": "What is the largest mammal?",
+      "correct": "Blue Whale",
+      "wrong": ["Elephant", "Giraffe", "Shark", "Polar Bear"]
+    },
+    {
+      "question": "What is the smallest planet in our solar system?",
+      "correct": "Mercury",
+      "wrong": ["Mars", "Venus", "Earth", "Pluto"]
+    },
+    {
+      "question": "What are Three Prime Colours?",
+      "correct": "Red Blue Green",
+      "wrong": ["Red Blue Yellow", "Red Yellow Green", "Red Black White", "Red Blue White"]
+    },
+    {
+      "question": "Cristiano Ronaldo is associated with which sport?",
+      "correct": "Football",
+      "wrong": ["Tennis", "Basketball", "Golf", "Cricket"]
+    },
+    {
+      "question": "Which continent is the Sahara Desert located on?",
+      "correct": "Africa",
+      "wrong": ["Asia", "Australia", "South America", "North America"]
+    },
+    {
+      "question": "What is the official language of Brazil?",
+      "correct": "Portuguese",
+      "wrong": ["Spanish", "French", "English", "Italian"]
+    },
+    {
+      "question": "What is the currency used in Japan?",
+      "correct": "Japanese Yen",
+      "wrong": ["Chinese Yuan", "South Korean Won", "US Dollar", "Euro"]
+    },
+    {
+      "question": "Which country is famous for the Pyramids of Giza?",
+      "correct": "Egypt",
+      "wrong": ["Mexico", "India", "China", "Peru"]
+    },
+    {
+      "question": "What is the tallest mountain in the world?",
+      "correct": "Mount Everest",
+      "wrong": ["K2", "Kangchenjunga", "Lhotse", "Makalu"]
+    },
+    {
+      "question": "What is the national animal of Canada?",
+      "correct": "Beaver",
+      "wrong": ["Moose", "Polar Bear", "Eagle", "Wolf"]
+    },
+    {
+      "question": "Which European country is shaped like a boot?",
+      "correct": "Italy",
+      "wrong": ["France", "Spain", "Portugal", "Greece"]
+    },
+    {
+      "question": "Which African country is known as the Rainbow Nation?",
+      "correct": "South Africa",
+      "wrong": ["Kenya", "Nigeria", "Egypt", "Ghana"]
+    },
+    {
+      "question": "Which country has the most volcanoes?",
+      "correct": "Indonesia",
+      "wrong": ["Japan", "Philippines", "USA", "Italy"]
+    }
+  ]
+}

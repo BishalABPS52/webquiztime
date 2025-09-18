@@ -1,0 +1,79 @@
+{
+  "questions": [
+    {
+      "question": "San Siro is a stadium located in which city?",
+      "correct": "Milan",
+      "wrong": ["Rome", "Paris", "Madrid", "Berlin"]
+    },
+    {
+      "question": "In which city would you find the historic landmark, the Alhambra?",
+      "correct": "Granada",
+      "wrong": ["Seville", "Madrid", "Barcelona", "Lisbon"]
+    },
+    {
+      "question": "Which city is known as the 'City of Canals'?",
+      "correct": "Venice",
+      "wrong": ["Amsterdam", "Paris", "Bangkok", "Venice"]
+    },
+    {
+      "question": "In which city is the famous landmark, the Christ the Redeemer statue, located?",
+      "correct": "Rio de Janeiro",
+      "wrong": ["Sao Paulo", "Buenos Aires", "Mexico City", "Lima"]
+    },
+    {
+      "question": "Which city is home to the historic landmark, the Colosseum?",
+      "correct": "Rome",
+      "wrong": ["Athens", "Paris", "London", "New York"]
+    },
+    {
+      "question": "What is the SI unit of electric current?",
+      "correct": "Ampere",
+      "wrong": ["Volt", "Watt", "Ohm", "Joule"]
+    },
+    {
+      "question": "Who is known as the father of modern physics?",
+      "correct": "Albert Einstein",
+      "wrong": ["Isaac Newton", "Niels Bohr", "Galileo Galilei", "Max Planck"]
+    },
+    {
+      "question": "What is the speed of light in a vacuum?",
+      "correct": "approax. 300,000,000 m/s",
+      "wrong": ["approax. 350,000,000 m/s", "150,000,000 m/s", "400,000,000 m/s", "200,000,000 m/s"]
+    },
+    {
+      "question": "What is the principle stating that energy cannot be created or destroyed?",
+      "correct": "Conservation of Energy",
+      "wrong": ["Newton's First Law", "Second Law of Thermodynamics", "Law of Inertia", "Heisenberg Uncertainty Principle"]
+    },
+    {
+      "question": "Oxalic acid is commonly found in which vegetable?",
+      "correct": "Spinach",
+      "wrong": ["Carrot", "Potato", "Apple", "Lettuce"]
+    },
+    {
+      "question": "Which gas is most commonly used in light bulbs?",
+      "correct": "Argon",
+      "wrong": ["Oxygen", "Nitrogen", "Helium", "Carbon Dioxide"]
+    },
+    {
+      "question": "What is the pH level of Vinegar?",
+      "correct": "around 3",
+      "wrong": ["around 1", "exctly 2", "around 4", "5"]
+    },
+    {
+      "question": "Which element has the chemical symbol 'Na'?",
+      "correct": "Sodium",
+      "wrong": ["Nitrogen", "Neon", "Nickel", "Nobelium"]
+    },
+    {
+      "question": "Who won the Golden Boot at the 2018 FIFA World Cup?",
+      "correct": "Harry Kane",
+      "wrong": ["Cristiano Ronaldo", "Lionel Messi", "Kylian Mbappe", "Eden Hazard"]
+    },
+    {
+      "question": "What does the acronym 'IMF' stand for?",
+      "correct": "International Monetary Fund",
+      "wrong": ["International Management Fund", "Internal Monetary Fund", "International Market Federation", "Investment Money Fund"]
+    }
+  ]
+}
