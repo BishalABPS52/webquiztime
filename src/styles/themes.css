@@ -1,0 +1,66 @@
+/* Theme CSS variables */
+:root {
+  /* Default theme variables - these will be overridden by JS */
+  --color-primary: #3b82f6;
+  --color-secondary: #8b5cf6;
+  --color-accent: #f59e0b;
+  --color-background: from-blue-900 to-purple-900;
+  --color-card: bg-white;
+  --color-text: text-gray-800;
+  --color-buttonBg: bg-blue-600;
+  --color-buttonHover: hover:bg-blue-700;
+  --color-buttonText: text-white;
+}
+
+/* Transition for theme changes */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Apply themes to body */
+body.theme-default {
+  --theme-bg-gradient: linear-gradient(to bottom, #1e3a8a, #6d28d9);
+}
+
+body.theme-dark {
+  --theme-bg-gradient: linear-gradient(to bottom, #111827, #000000);
+}
+
+body.theme-light {
+  --theme-bg-gradient: linear-gradient(to bottom, #f3f4f6, #d1d5db);
+}
+
+body.theme-space {
+  --theme-bg-gradient: linear-gradient(to bottom, #0f172a, #581c87, #0f172a);
+}
+
+body.theme-retro {
+  --theme-bg-gradient: linear-gradient(to bottom, #f59e0b, #ec4899);
+}
+
+/* Apply background gradient based on theme */
+.theme-gradient-bg {
+  background: var(--theme-bg-gradient);
+}
+
+/* Theme-based button styles */
+.theme-button {
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  background-color: var(--color-buttonBg);
+  color: var(--color-buttonText);
+}
+
+.theme-button:hover {
+  filter: brightness(1.1);
+}
+
+/* Theme-based card styles */
+.theme-card {
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 1rem;
+  background-color: var(--color-card);
+  color: var(--color-text);
+}

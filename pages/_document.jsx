@@ -5,12 +5,12 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <link rel="icon" href="/assets/images/QuizTime.png" />
-        <link rel="preload" href="/assets/fonts/KnightWarrior.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+        <link rel="preload" href="/assets/fonts/CaveatBrush-Regular.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <link rel="preload" href="/assets/fonts/CaviarDreams_Bold.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
         <style>{`
           @font-face {
-            font-family: 'KnightWarrior';
-            src: url('/assets/fonts/KnightWarrior.otf') format('opentype');
+            font-family: 'CaveatBrush';
+            src: url('/assets/fonts/CaveatBrush-Regular.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
             font-display: swap;

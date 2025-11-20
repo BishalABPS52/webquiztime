@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Layout from './components/layout';
-import Login from './pages/login';
-import Menu from './pages/menu';
-import Game from './pages/game';
-import Stats from './pages/stats';
-import Help from './pages/help';
-import Leaderboards from './pages/leaderboards';
+import Login from '../pages/login';
+import Menu from '../pages/menu';
+import Game from '../pages/game';
+import Stats from '../pages/stats';
+import Help from '../pages/help';
+import Leaderboards from '../pages/leaderboard';
+import LifelinesSelection from '../pages/lifelines-selection';
 
 const Page = () => {
   const [currentScreen, setCurrentScreen] = useState('login');
@@ -49,7 +50,8 @@ const Page = () => {
       wonGame: false,
       questionHistory: []
     });
-    setCurrentScreen('game');
+    // First navigate to lifelines selection screen
+    setCurrentScreen('lifelines');
   };
 
   const handleGameOver = (finalState) => {
@@ -101,6 +103,12 @@ const Page = () => {
             onLeaderboards={() => setCurrentScreen('leaderboards')}
             onHelp={() => setCurrentScreen('help')} 
             onLogout={handleLogout} 
+          />
+        );
+      case 'lifelines':
+        return (
+          <LifelinesSelection 
+            onComplete={() => setCurrentScreen('game')} 
           />
         );
       case 'game':

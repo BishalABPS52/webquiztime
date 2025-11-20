@@ -1,15 +1,19 @@
- {
+{
   "name": "webquiztime",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "aos": "^2.3.4",
+    "axios": "^1.12.2",
+    "framer-motion": "^10.16.4",
+    "howler": "^2.2.4",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.20.0",
     "next": "^14.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "framer-motion": "^10.16.4",
     "react-spring": "^9.7.3",
-    "aos": "^2.3.4",
-    "howler": "^2.2.4"
+    "styled-components": "^6.1.19"
   },
   "scripts": {
     "dev": "next dev",
@@ -36,8 +40,9 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.3.5",
+    "autoprefixer": "^10.4.16",
+    "babel-plugin-styled-components": "^2.1.4",
     "postcss": "^8.4.31",
-    "autoprefixer": "^10.4.16"
+    "tailwindcss": "^3.3.5"
   }
 }

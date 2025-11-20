@@ -1,0 +1,448 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
+
+const Game = () => {
+  const router = useRouter();
+
+  // Prize structure for all 15 questions
+  const prizeStructure = [
+    25000, 50000, 100000, 200000, 400000, 800000, 1600000,
+    3200000, 6400000, 12800000, 25600000, 51200000,
+    102400000, 204800000, 700000000
+  ];
+
+  // Time limits based on question number
+  const getTimeLimit = (questionNum) => {
+    if (questionNum <= 3) return 20;
+    if (questionNum <= 9) return 30;
+    return 45;
+  };
+
+  // Sample questions (15 questions with 4 options each)
+  const questions = [
+    {
+      question: "What is the capital of France?",
+      options: ["London", "Berlin", "Paris", "Madrid"],
+      correctAnswer: 2
+    },
+    {
+      question: "Which planet is known as the Red Planet?",
+      options: ["Venus", "Mars", "Jupiter", "Saturn"],
+      correctAnswer: 1
+    },
+    {
+      question: "Who painted the Mona Lisa?",
+      options: ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Michelangelo"],
+      correctAnswer: 1
+    },
+    {
+      question: "What is the largest ocean on Earth?",
+      options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+      correctAnswer: 3
+    },
+    {
+      question: "In which year did World War II end?",
+      options: ["1943", "1944", "1945", "1946"],
+      correctAnswer: 2
+    },
+    {
+      question: "What is the chemical symbol for gold?",
+      options: ["Go", "Gd", "Au", "Ag"],
+      correctAnswer: 2
+    },
+    {
+      question: "Which country is home to the kangaroo?",
+      options: ["New Zealand", "Australia", "South Africa", "Brazil"],
+      correctAnswer: 1
+    },
+    {
+      question: "What is the speed of light?",
+      options: ["300,000 km/s", "150,000 km/s", "450,000 km/s", "600,000 km/s"],
+      correctAnswer: 0
+    },
+    {
+      question: "Who wrote 'Romeo and Juliet'?",
+      options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+      correctAnswer: 1
+    },
+    {
+      question: "What is the smallest prime number?",
+      options: ["0", "1", "2", "3"],
+      correctAnswer: 2
+    },
+    {
+      question: "Which element has the atomic number 1?",
+      options: ["Helium", "Hydrogen", "Oxygen", "Carbon"],
+      correctAnswer: 1
+    },
+    {
+      question: "What is the tallest mountain in the world?",
+      options: ["K2", "Kangchenjunga", "Mount Everest", "Lhotse"],
+      correctAnswer: 2
+    },
+    {
+      question: "In which continent is the Sahara Desert located?",
+      options: ["Asia", "Australia", "Africa", "South America"],
+      correctAnswer: 2
+    },
+    {
+      question: "What is the largest planet in our solar system?",
+      options: ["Saturn", "Jupiter", "Neptune", "Uranus"],
+      correctAnswer: 1
+    },
+    {
+      question: "Who developed the theory of relativity?",
+      options: ["Isaac Newton", "Nikola Tesla", "Albert Einstein", "Stephen Hawking"],
+      correctAnswer: 2
+    }
+  ];
+
+  // Game states
+  const [screen, setScreen] = useState('lifelineSelect'); // lifelineSelect | inGame | gameOver | victory
+  const [selectedLifelines, setSelectedLifelines] = useState([]);
+  const [usedLifelines, setUsedLifelines] = useState([]);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(20);
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [locked, setLocked] = useState(false);
+  const [result, setResult] = useState(null); // 'correct' | 'wrong' | null
+  const [currentPrize, setCurrentPrize] = useState(0);
+  const [hiddenOptions, setHiddenOptions] = useState([]);
+  
+  const timerRef = useRef(null);
+
+  // Format prize with commas
+  const formatPrize = (amount) => {
+    return '$' + amount.toLocaleString();
+  };
+
+  // Timer logic
+  useEffect(() => {
+    if (screen === 'inGame' && !locked && timeLeft > 0) {
+      timerRef.current = setTimeout(() => {
+        setTimeLeft(prev => prev - 1);
+      }, 1000);
+    } else if (timeLeft === 0 && screen === 'inGame' && !locked) {
+      // Time's up - Game Over
+      setScreen('gameOver');
+    }
+
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    };
+  }, [timeLeft, screen, locked]);
+
+  // Lifeline selection
+  const toggleLifeline = (lifeline) => {
+    if (selectedLifelines.includes(lifeline)) {
+      setSelectedLifelines(selectedLifelines.filter(l => l !== lifeline));
+    } else if (selectedLifelines.length < 2) {
+      setSelectedLifelines([...selectedLifelines, lifeline]);
+    }
+  };
+
+  // Start game
+  const startGame = () => {
+    setScreen('inGame');
+    setCurrentQuestion(0);
+    setCurrentPrize(0);
+    setTimeLeft(getTimeLimit(1));
+    setSelectedAnswer(null);
+    setLocked(false);
+    setResult(null);
+    setUsedLifelines([]);
+    setHiddenOptions([]);
+  };
+
+  // Use lifeline
+  const useLifeline = (lifeline) => {
+    if (usedLifelines.includes(lifeline) || !selectedLifelines.includes(lifeline)) return;
+
+    setUsedLifelines([...usedLifelines, lifeline]);
+
+    if (lifeline === '50-50') {
+      // Remove 2 wrong answers
+      const correctIdx = questions[currentQuestion].correctAnswer;
+      const wrongIndices = [0, 1, 2, 3].filter(i => i !== correctIdx);
+      const toHide = [];
+      for (let i = 0; i < 2 && wrongIndices.length > 0; i++) {
+        const randomIdx = Math.floor(Math.random() * wrongIndices.length);
+        toHide.push(wrongIndices[randomIdx]);
+        wrongIndices.splice(randomIdx, 1);
+      }
+      setHiddenOptions(toHide);
+    } else if (lifeline === 'Skip') {
+      // Skip to next question
+      moveToNextQuestion(true);
+    } else if (lifeline === 'Double Chance') {
+      // This will be handled in answer checking
+    } else if (lifeline === 'Phone a Friend') {
+      // Show hint about the correct answer
+      alert(`Your friend suggests: "${questions[currentQuestion].options[questions[currentQuestion].correctAnswer]}"`);
+    }
+  };
+
+  // Handle answer click
+  const handleAnswerClick = (index) => {
+    if (locked || hiddenOptions.includes(index)) return;
+    setSelectedAnswer(index);
+  };
+
+  // Handle answer double-click (lock)
+  const handleAnswerDoubleClick = (index) => {
+    if (locked || selectedAnswer !== index || hiddenOptions.includes(index)) return;
+    
+    setLocked(true);
+    clearTimeout(timerRef.current);
+
+    const correct = index === questions[currentQuestion].correctAnswer;
+    
+    if (correct) {
+      setResult('correct');
+      setCurrentPrize(prizeStructure[currentQuestion]);
+      
+      setTimeout(() => {
+        moveToNextQuestion(false);
+      }, 1500);
+    } else {
+      // Check if double chance is available and not used
+      const hasDoubleChance = selectedLifelines.includes('Double Chance') && 
+                             !usedLifelines.includes('Double Chance');
+      
+      if (hasDoubleChance) {
+        setResult('wrong');
+        setUsedLifelines([...usedLifelines, 'Double Chance']);
+        
+        setTimeout(() => {
+          setResult(null);
+          setSelectedAnswer(null);
+          setLocked(false);
+          setTimeLeft(getTimeLimit(currentQuestion + 1));
+        }, 1500);
+      } else {
+        setResult('wrong');
+        setTimeout(() => {
+          setScreen('gameOver');
+        }, 1500);
+      }
+    }
+  };
+
+  // Move to next question
+  const moveToNextQuestion = (skipped) => {
+    if (currentQuestion >= 14) {
+      // Won the game!
+      setScreen('victory');
+      return;
+    }
+
+    const nextQuestion = currentQuestion + 1;
+    setCurrentQuestion(nextQuestion);
+    setTimeLeft(getTimeLimit(nextQuestion + 1));
+    setSelectedAnswer(null);
+    setLocked(false);
+    setResult(null);
+    setHiddenOptions([]);
+    
+    if (!skipped) {
+      // Prize is already updated when answer was correct
+    }
+  };
+
+  // Restart game
+  const restartGame = () => {
+    setScreen('lifelineSelect');
+    setSelectedLifelines([]);
+    setUsedLifelines([]);
+    setCurrentQuestion(0);
+    setCurrentPrize(0);
+    setTimeLeft(20);
+    setSelectedAnswer(null);
+    setLocked(false);
+    setResult(null);
+    setHiddenOptions([]);
+  };
+
+  // Quit game
+  const quitGame = () => {
+    if (confirm('Are you sure you want to quit?')) {
+      restartGame();
+    }
+  };
+
+  // Get option class
+  const getOptionClass = (index) => {
+    let classes = 'game-option';
+    
+    if (hiddenOptions.includes(index)) {
+      return classes + ' hidden-option';
+    }
+    
+    if (locked) {
+      if (result === 'correct' && index === questions[currentQuestion].correctAnswer) {
+        classes += ' correct-answer';
+      } else if (result === 'wrong' && index === selectedAnswer) {
+        classes += ' wrong-answer';
+      } else if (index === questions[currentQuestion].correctAnswer && result === 'wrong') {
+        classes += ' correct-answer';
+      }
+    } else if (selectedAnswer === index) {
+      classes += ' selected';
+    }
+    
+    return classes;
+  };
+
+  // RENDER: Lifeline Selection Screen
+  if (screen === 'lifelineSelect') {
+    return (
+      <div className="quiz-container">
+        <div className="rain"></div>
+        <div className="lifeline-selection-screen">
+          <h1 className="lifeline-title">QuizTime</h1>
+          <h2 className="lifeline-subtitle">Select Any 2 Lifelines Before You Start</h2>
+          
+          <div className="lifelines-grid">
+            {['50-50', 'Skip', 'Double Chance', 'Phone a Friend'].map(lifeline => (
+              <button
+                key={lifeline}
+                onClick={() => toggleLifeline(lifeline)}
+                className={`lifeline-select-btn ${selectedLifelines.includes(lifeline) ? 'selected' : ''}`}
+              >
+                {lifeline}
+              </button>
+            ))}
+          </div>
+
+          {selectedLifelines.length === 2 && (
+            <button onClick={startGame} className="start-game-btn">
+              Start Game
+            </button>
+          )}
+
+          {selectedLifelines.length !== 2 && (
+            <p className="lifeline-hint">Please select exactly 2 lifelines to start</p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // RENDER: In-Game Screen
+  if (screen === 'inGame') {
+    return (
+      <div className="quiz-container">
+        <div className="rain"></div>
+        
+        <div className="game-screen">
+          {/* Top Bar */}
+          <div className="game-top-bar">
+            <div className="question-counter">
+              Question {currentQuestion + 1} / 15
+            </div>
+            
+            <div className="current-prize">
+              {formatPrize(currentPrize > 0 ? currentPrize : prizeStructure[currentQuestion])}
+            </div>
+            
+            <div className="timer-and-quit">
+              <div className={`timer ${timeLeft <= 5 ? 'timer-warning' : ''}`}>
+                Time Left: {timeLeft}s
+              </div>
+              <button onClick={quitGame} className="quit-btn">
+                Quit
+              </button>
+            </div>
+          </div>
+
+          {/* Lifelines */}
+          <div className="lifelines-bar">
+            {selectedLifelines.map(lifeline => (
+              <button
+                key={lifeline}
+                onClick={() => useLifeline(lifeline)}
+                disabled={usedLifelines.includes(lifeline)}
+                className={`lifeline-game-btn ${usedLifelines.includes(lifeline) ? 'used' : 'active'}`}
+              >
+                {lifeline}
+              </button>
+            ))}
+          </div>
+
+          {/* Question */}
+          <div className="question-container">
+            <h2 className="question-text">{questions[currentQuestion].question}</h2>
+          </div>
+
+          {/* Options */}
+          <div className="options-grid">
+            {questions[currentQuestion].options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleAnswerClick(index)}
+                onDoubleClick={() => handleAnswerDoubleClick(index)}
+                className={getOptionClass(index)}
+                disabled={locked || hiddenOptions.includes(index)}
+                style={{ display: hiddenOptions.includes(index) ? 'none' : 'flex' }}
+              >
+                <span className="option-letter">{String.fromCharCode(65 + index)}</span>
+                <span className="option-text">{option}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // RENDER: Game Over Screen
+  if (screen === 'gameOver') {
+    return (
+      <div className="quiz-container">
+        <div className="rain"></div>
+        <div className="game-over-screen fade-in">
+          <h1 className="game-over-title">GAME OVER</h1>
+          <p className="final-prize">You won: {formatPrize(currentPrize)}</p>
+          
+          <div className="game-over-buttons">
+            <button onClick={startGame} className="restart-btn">
+              Restart Game
+            </button>
+            <button onClick={() => router.push('/menu')} className="menu-btn">
+              Return to Main Menu
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // RENDER: Victory Screen
+  if (screen === 'victory') {
+    return (
+      <div className="quiz-container">
+        <div className="rain"></div>
+        <div className="game-over-screen fade-in">
+          <h1 className="victory-title">🏆 CONGRATULATIONS! 🏆</h1>
+          <h2 className="victory-subtitle">You Won</h2>
+          <p className="victory-prize">$700,000,000!</p>
+          
+          <div className="game-over-buttons">
+            <button onClick={startGame} className="restart-btn">
+              Play Again
+            </button>
+            <button onClick={() => router.push('/menu')} className="menu-btn">
+              Return to Main Menu
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+export default Game;

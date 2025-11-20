@@ -1,0 +1,595 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fredoka+One&display=swap');
+
+/* ============================================
+   QUIZ CONTAINER & BACKGROUND
+   ============================================ */
+.quiz-container {
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a0033 0%, #2d1b69 30%, #4a148c 60%, #1a0033 100%);
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Rain Effect */
+.rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  background-image: 
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.03) 2px,
+      rgba(255, 255, 255, 0.03) 4px
+    );
+  animation: rain-animation 20s linear infinite;
+}
+
+@keyframes rain-animation {
+  0% {
+    transform: translateY(-100%) translateX(-100%);
+  }
+  100% {
+    transform: translateY(100%) translateX(100%);
+  }
+}
+
+/* ============================================
+   LIFELINE SELECTION SCREEN
+   ============================================ */
+.lifeline-selection-screen {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  padding: 40px;
+  background: rgba(30, 13, 60, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.lifeline-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 4rem;
+  color: #FFD700;
+  text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+  margin-bottom: 20px;
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
+  }
+  50% {
+    text-shadow: 0 0 50px rgba(255, 215, 0, 1);
+  }
+}
+
+.lifeline-subtitle {
+  font-size: 1.5rem;
+  color: #FFD700;
+  margin-bottom: 40px;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.lifelines-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.lifeline-select-btn {
+  padding: 20px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: #888;
+  color: #fff;
+  border: 3px solid #666;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.lifeline-select-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.lifeline-select-btn.selected {
+  background: #fff;
+  color: #000;
+  border-color: #FFD700;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+}
+
+.start-game-btn {
+  padding: 18px 60px;
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+  animation: btn-bounce 2s ease-in-out infinite;
+}
+
+@keyframes btn-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.start-game-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+}
+
+.lifeline-hint {
+  font-size: 1.1rem;
+  color: #FFD700;
+  margin-top: 20px;
+  opacity: 0.7;
+}
+
+/* ============================================
+   IN-GAME SCREEN
+   ============================================ */
+.game-screen {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Top Bar */
+.game-top-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  align-items: center;
+  background: rgba(30, 13, 60, 0.8);
+  padding: 15px 30px;
+  border-radius: 15px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.question-counter {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  text-align: left;
+}
+
+.current-prize {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #FFD700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  text-align: center;
+}
+
+.timer-and-quit {
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.timer {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #FFD700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.timer-warning {
+  color: #ff4444;
+  text-shadow: 0 0 15px rgba(255, 68, 68, 0.8);
+  animation: timer-pulse 0.5s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.quit-btn {
+  padding: 10px 25px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #000;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+}
+
+.quit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.6);
+}
+
+/* Lifelines Bar */
+.lifelines-bar {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.lifeline-game-btn {
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lifeline-game-btn.active {
+  background: #fff;
+  color: #000;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+}
+
+.lifeline-game-btn.active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.6);
+}
+
+.lifeline-game-btn.used {
+  background: #888;
+  color: #444;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Question Container */
+.question-container {
+  background: rgba(30, 13, 60, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 215, 0, 0.3);
+  text-align: center;
+}
+
+.question-text {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #FFD700;
+  text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Options Grid */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.game-option {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: rgba(200, 200, 200, 0.2);
+  border: 3px solid rgba(200, 200, 200, 0.4);
+  border-radius: 15px;
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.game-option:hover {
+  background: rgba(150, 150, 150, 0.3);
+  border-color: rgba(200, 200, 200, 0.6);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.game-option.selected {
+  background: rgba(59, 130, 246, 0.5);
+  border-color: #3b82f6;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+}
+
+.game-option.correct-answer {
+  background: rgba(34, 197, 94, 0.6);
+  border-color: #22c55e;
+  box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
+  animation: correct-flash 0.5s ease-in-out;
+}
+
+@keyframes correct-flash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.game-option.wrong-answer {
+  background: rgba(239, 68, 68, 0.6);
+  border-color: #ef4444;
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
+  animation: wrong-shake 0.5s ease-in-out;
+}
+
+@keyframes wrong-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.game-option.hidden-option {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.option-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 215, 0, 0.3);
+  border: 2px solid #FFD700;
+  border-radius: 50%;
+  font-weight: 800;
+  color: #FFD700;
+  flex-shrink: 0;
+}
+
+.option-text {
+  flex: 1;
+}
+
+/* ============================================
+   GAME OVER / VICTORY SCREEN
+   ============================================ */
+.game-over-screen {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 600px;
+  width: 90%;
+  padding: 60px 40px;
+  background: rgba(88, 28, 135, 0.95);
+  border-radius: 25px;
+  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.6);
+  border: 3px solid rgba(255, 215, 0, 0.4);
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.game-over-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 4rem;
+  color: #ff4444;
+  text-shadow: 0 0 40px rgba(255, 68, 68, 0.8);
+  margin-bottom: 30px;
+  animation: title-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes title-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.victory-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 3.5rem;
+  color: #FFD700;
+  text-shadow: 0 0 40px rgba(255, 215, 0, 1);
+  margin-bottom: 20px;
+  animation: victory-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes victory-glow {
+  0%, 100% {
+    text-shadow: 0 0 40px rgba(255, 215, 0, 1);
+  }
+  50% {
+    text-shadow: 0 0 60px rgba(255, 215, 0, 1), 0 0 80px rgba(255, 215, 0, 0.8);
+  }
+}
+
+.victory-subtitle {
+  font-size: 2rem;
+  color: #FFD700;
+  margin-bottom: 15px;
+}
+
+.victory-prize {
+  font-size: 4rem;
+  font-weight: 800;
+  color: #FFD700;
+  text-shadow: 0 0 50px rgba(255, 215, 0, 1);
+  margin-bottom: 40px;
+  animation: prize-bounce 1s ease-in-out infinite;
+}
+
+@keyframes prize-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.final-prize {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #FFD700;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  margin-bottom: 40px;
+}
+
+.game-over-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.restart-btn {
+  padding: 18px 50px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+  min-width: 250px;
+}
+
+.restart-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(16, 185, 129, 0.6);
+}
+
+.menu-btn {
+  padding: 18px 50px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+  min-width: 250px;
+}
+
+.menu-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(239, 68, 68, 0.6);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+  .lifeline-title {
+    font-size: 3rem;
+  }
+
+  .lifeline-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .start-game-btn {
+    font-size: 1.5rem;
+    padding: 15px 40px;
+  }
+
+  .game-top-bar {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .question-counter,
+  .current-prize,
+  .timer-and-quit {
+    justify-content: center;
+  }
+
+  .question-text {
+    font-size: 1.5rem;
+  }
+
+  .lifelines-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .game-option {
+    font-size: 1.1rem;
+    padding: 15px;
+  }
+
+  .game-over-title,
+  .victory-title {
+    font-size: 2.5rem;
+  }
+
+  .victory-prize {
+    font-size: 3rem;
+  }
+
+  .final-prize {
+    font-size: 2rem;
+  }
+}
