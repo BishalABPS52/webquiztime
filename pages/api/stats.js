@@ -195,7 +195,6 @@ export default async function handler(req, res) {
       const backendResponse = await fetch(`${backendURL}/api/stats/${username}`);
       if (backendResponse.ok) {
         const backendData = await backendResponse.json();
-        const backendData = await backendResponse.json();
         console.log('Backend stats data received:', backendData);
         // Only return backend data if it has meaningful stats
         if (backendData.stats && (backendData.stats.score > 0 || backendData.stats.questionsAnswered > 0)) {

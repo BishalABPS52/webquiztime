@@ -75,11 +75,9 @@ const Game = () => {
   const [totalAnswerTime, setTotalAnswerTime] = useState(0);
   const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
-  // Prize structure for 16 questions
+  // Prize structure for 15 questions
   const prizeStructure = [
-    1000, 2000, 3000, // Easy (Q1-Q3)
-    5000, 10000, 20000, 50000, 100000, 200000, // Medium (Q4-Q9)
-    500000, 1000000, 2000000, 5000000, 10000000, 50000000, 700000000 // Hard (Q10-Q16)
+    25000, 50000, 100000, 200000, 400000, 800000, 1600000, 3200000, 6400000, 12800000, 25600000, 51200000, 102400000, 204800000, 700000000
   ];
 
   // Initialize audio reference
@@ -262,7 +260,7 @@ const Game = () => {
 
   // Format prize with commas
   const formatPrize = (amount) => {
-    return '$' + amount.toLocaleString();
+    return 'QZs ' + amount.toLocaleString();
   };
   
   // Save game results to backend
@@ -280,7 +278,7 @@ const Game = () => {
       const averageTimePerQuestion = completionTime > 0 ? completionTime / (currentQuestion + 1) : 0;
       
       // Calculate lifelines used
-      const allLifelines = ['50:50', 'Ask Audience', 'Phone Friend', 'Pause Timer', 'Skip', 'Change Question'];
+      const allLifelines = ['50:50', 'Pause Timer', 'Skip', 'Change Question', 'Double Chance'];
       const lifelinesUsedCount = {};
       allLifelines.forEach(lifeline => {
         lifelinesUsedCount[lifeline.replace(/[^a-zA-Z]/g, '')] = usedLifelines.filter(ul => ul === lifeline).length;
@@ -291,7 +289,7 @@ const Game = () => {
         questionsAnswered: currentQuestion + 1,
         correctAnswers: correctAnswersCount,
         wrongAnswers: wrongAnswers,
-        averageTimePerQuestion: averageTimePerQuestion,
+        averageTimePerQuestion: completionTime > 0 ? completionTime / (currentQuestion + 1) : 0,
         averageCompletionTime: `${Math.floor(completionTime / 60)}:${(completionTime % 60).toString().padStart(2, '0')}`,
         totalTime: completionTime,
         level: 'normal',
@@ -1346,7 +1344,7 @@ const Game = () => {
                 textShadow: '0 0 50px rgba(255, 215, 0, 1)',
                 marginBottom: '40px'
               }}>
-                $700,000,000! 🎉
+                QZs 700,000,000! 🎉
               </p>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
