@@ -63,7 +63,12 @@ const Menu = () => {
         const data = await QuizTimeAPI.getUserProfile();
         setUserData(data);
       } catch (error) {
-        console.error('Error loading user data:', error);
+        console.error('Error loading user data'); // Don't log sensitive error details
+        // Redirect to login if authentication fails
+        if (error.status === 401 || error.status === 403) {
+          QuizTimeAPI.logout();
+          router.push('/login');
+        }
       }
     };
 
@@ -73,8 +78,10 @@ const Menu = () => {
   // Handle logout
   const handleLogout = () => {
     playSound('click');
+    // Clear all local storage and cookies
     QuizTimeAPI.logout();
-    router.push('/login');
+    // Force redirect to login
+    window.location.href = '/login';
   };
 
   return (
